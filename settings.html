@@ -21,34 +21,87 @@
         </div>
 
         <form class="settings-form" id="settingsForm">
+            <!-- Work Duration Slider -->
             <div class="form-group">
-                <label for="workDuration">Work Duration (minutes)</label>
-                <input type="number" id="workDuration" name="workDuration" min="1" max="120" value="25" required>
+                <label for="workDuration">Work Duration: <span id="workDurationValue">25</span> minutes</label>
+                <input type="range" id="workDuration" name="workDuration" min="5" max="60" step="5" value="25" class="slider">
+                <div class="slider-labels">
+                    <span>5 min</span>
+                    <span>60 min</span>
+                </div>
             </div>
 
+            <!-- Break Duration Slider -->
             <div class="form-group">
-                <label for="breakDuration">Break Duration (minutes)</label>
-                <input type="number" id="breakDuration" name="breakDuration" min="1" max="60" value="5" required>
+                <label for="breakDuration">Break Duration: <span id="breakDurationValue">5</span> minutes</label>
+                <input type="range" id="breakDuration" name="breakDuration" min="5" max="60" step="5" value="5" class="slider">
+                <div class="slider-labels">
+                    <span>5 min</span>
+                    <span>60 min</span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="workCompleteMessage">Work Complete Message</label>
-                <textarea id="workCompleteMessage" name="workCompleteMessage" placeholder="Time to take a break and recharge!" required>Time to take a break and recharge!</textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="breakCompleteMessage">Break Complete Message</label>
-                <textarea id="breakCompleteMessage" name="breakCompleteMessage" placeholder="Time to get back to work!" required>Time to get back to work!</textarea>
-            </div>
-
+            <!-- Notification Sound -->
             <div class="form-group">
                 <label for="notificationSound">Notification Sound</label>
-                <select id="notificationSound" name="notificationSound">
-                    <option value="default">Default Chime</option>
-                    <option value="bell">Bell</option>
-                    <option value="chime">Soft Chime</option>
-                    <option value="ding">Ding</option>
-                </select>
+                <div class="sound-selector">
+                    <select id="notificationSound" name="notificationSound">
+                        <option value="default">Default Chime</option>
+                        <option value="bell">Bell</option>
+                        <option value="chime">Soft Chime</option>
+                        <option value="ding">Ding</option>
+                    </select>
+                    <button type="button" class="btn btn-secondary test-sound-btn" id="testSoundBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                        Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- Work Complete Messages -->
+            <div class="form-group">
+                <label>Work Complete Messages</label>
+                <div class="message-list" id="workMessagesList">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                <button type="button" class="btn btn-secondary add-message-btn" id="addWorkMessageBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Message
+                </button>
+            </div>
+
+            <!-- Break Complete Messages -->
+            <div class="form-group">
+                <label>Break Complete Messages</label>
+                <div class="message-list" id="breakMessagesList">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                <button type="button" class="btn btn-secondary add-message-btn" id="addBreakMessageBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Message
+                </button>
+            </div>
+
+            <!-- Session Reset -->
+            <div class="form-group">
+                <label>Session Counter</label>
+                <button type="button" class="btn btn-secondary reset-sessions-btn" id="resetSessionsBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                        <path d="M21 3v5h-5"></path>
+                        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                        <path d="M3 21v-5h5"></path>
+                    </svg>
+                    Reset Sessions Completed Today
+                </button>
             </div>
 
             <button type="submit" class="btn btn-primary save-btn">Save Settings</button>

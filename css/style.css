@@ -406,3 +406,174 @@ body {
 .timer-time.pulse {
     animation: pulse 1s ease-in-out infinite;
 }
+
+/* Range Slider Styles */
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) 50%, #e8e8ed 50%, #e8e8ed 100%);
+    outline: none;
+    transition: var(--transition);
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.form-group label span {
+    color: var(--primary-color);
+    font-weight: 700;
+    text-transform: none;
+}
+
+/* Sound Selector */
+.sound-selector {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+}
+
+.sound-selector select {
+    flex: 1;
+}
+
+.test-sound-btn {
+    padding: 0.875rem 1.25rem !important;
+    white-space: nowrap;
+}
+
+/* Message List */
+.message-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.message-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.message-input {
+    flex: 1;
+    border: 2px solid #e8e8ed;
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: var(--transition);
+    background: var(--background);
+    color: var(--text-primary);
+    resize: vertical;
+    min-height: 60px;
+}
+
+.message-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.message-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+.btn-remove {
+    background: #FF3B30;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    flex-shrink: 0;
+    margin-top: 12px;
+}
+
+.btn-remove:hover {
+    background: #D70015;
+    transform: scale(1.05);
+}
+
+.btn-remove:active {
+    transform: scale(0.95);
+}
+
+.btn-remove svg {
+    color: white;
+}
+
+.add-message-btn {
+    width: 100%;
+    padding: 0.75rem;
+    justify-content: center;
+}
+
+/* Reset Sessions Button */
+.reset-sessions-btn {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    justify-content: center;
+    background: #FF9500;
+    color: white;
+}
+
+.reset-sessions-btn:hover {
+    background: #E68600;
+}
+
+/* Responsive adjustments for settings */
+@media (max-width: 480px) {
+    .sound-selector {
+        flex-direction: column;
+    }
+
+    .test-sound-btn {
+        width: 100%;
+    }
+}

@@ -9,8 +9,8 @@ let isWorkMode = true;
 let settings = {
     workDuration: 25,
     breakDuration: 5,
-    workCompleteMessage: 'Time to take a break and recharge!',
-    breakCompleteMessage: 'Time to get back to work!',
+    workCompleteMessages: ['Time to take a break and recharge!'],
+    breakCompleteMessages: ['Time to get back to work!'],
     notificationSound: 'default'
 };
 
@@ -57,7 +57,32 @@ function loadSettings() {
     const savedSettings = localStorage.getItem('focusTimerSettings');
     if (savedSettings) {
         settings = JSON.parse(savedSettings);
+        // Ensure backward compatibility - convert old single messages to arrays
+        if (typeof settings.workCompleteMessage === 'string') {
+            settings.workCompleteMessages = [settings.workCompleteMessage];
+            delete settings.workCompleteMessage;
+        }
+        if (typeof settings.breakCompleteMessage === 'string') {
+            settings.breakCompleteMessages = [settings.breakCompleteMessage];
+            delete settings.breakCompleteMessage;
+        }
+        // Ensure arrays exist
+        if (!settings.workCompleteMessages) {
+            settings.workCompleteMessages = ['Time to take a break and recharge!'];
+        }
+        if (!settings.breakCompleteMessages) {
+            settings.breakCompleteMessages = ['Time to get back to work!'];
+        }
     }
+}
+
+// Get random message from array
+function getRandomMessage(messages) {
+    if (!messages || messages.length === 0) {
+        return '';
+    }
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    return messages[randomIndex];
 }
 
 // Load session count
@@ -205,18 +230,24 @@ function timerComplete() {
         saveSessionCount();
         updateSessionDisplay();
 
+        // Get random work complete message
+        const workMessage = getRandomMessage(settings.workCompleteMessages);
+
         // Show notification
-        showNotification('Work Complete!', settings.workCompleteMessage);
+        showNotification('Work Complete!', workMessage);
 
         // Show break modal
-        breakMessageEl.textContent = settings.workCompleteMessage;
+        breakMessageEl.textContent = workMessage;
         breakModal.classList.add('show');
     } else {
         // Break complete
-        showNotification('Break Over!', settings.breakCompleteMessage);
+        // Get random break complete message
+        const breakMessage = getRandomMessage(settings.breakCompleteMessages);
+
+        showNotification('Break Over!', breakMessage);
 
         // Show work modal
-        workMessageEl.textContent = settings.breakCompleteMessage;
+        workMessageEl.textContent = breakMessage;
         workModal.classList.add('show');
     }
 }
