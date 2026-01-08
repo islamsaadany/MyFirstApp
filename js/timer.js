@@ -38,7 +38,7 @@ const skipBreakBtn = document.getElementById('skipBreakBtn');
 const startWorkBtn = document.getElementById('startWorkBtn');
 
 // Audio
-let notificationAudio = null;
+let currentPlayingSound = null;
 
 // Initialize
 function init() {
@@ -49,7 +49,6 @@ function init() {
     requestNotificationPermission();
     registerServiceWorker();
     setupEventListeners();
-    createNotificationSound();
 }
 
 // Load settings from localStorage
@@ -111,29 +110,12 @@ function updateSessionDisplay() {
     sessionCountEl.textContent = sessionsCompleted;
 }
 
-// Create notification sound
-function createNotificationSound() {
-    // Create a simple beep sound using Web Audio API
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-    notificationAudio = {
-        play: () => {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-
-            oscillator.frequency.value = 800;
-            oscillator.type = 'sine';
-
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.5);
-        }
-    };
+// Stop currently playing sound
+function stopSound() {
+    if (currentPlayingSound && currentPlayingSound.stop) {
+        currentPlayingSound.stop();
+        currentPlayingSound = null;
+    }
 }
 
 // Request notification permission
@@ -219,10 +201,9 @@ function timerComplete() {
     updateTimerDisplay();
     updateProgressRing();
 
-    // Play sound
-    if (notificationAudio) {
-        notificationAudio.play();
-    }
+    // Play continuous looping sound
+    const soundName = settings.notificationSound || 'default';
+    currentPlayingSound = SoundLibrary.playSound(soundName, true);
 
     if (isWorkMode) {
         // Work session complete
@@ -254,6 +235,7 @@ function timerComplete() {
 
 // Start break
 function startBreak() {
+    stopSound();
     breakModal.classList.remove('show');
     isWorkMode = false;
     timerModeEl.textContent = 'BREAK';
@@ -264,6 +246,7 @@ function startBreak() {
 
 // Skip break
 function skipBreak() {
+    stopSound();
     breakModal.classList.remove('show');
     isWorkMode = true;
     timerModeEl.textContent = 'WORK';
@@ -273,6 +256,7 @@ function skipBreak() {
 
 // Start work
 function startWork() {
+    stopSound();
     workModal.classList.remove('show');
     isWorkMode = true;
     timerModeEl.textContent = 'WORK';

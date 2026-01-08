@@ -9,8 +9,6 @@ const defaultSettings = {
 
 // DOM Elements
 const settingsForm = document.getElementById('settingsForm');
-const workDurationSlider = document.getElementById('workDuration');
-const breakDurationSlider = document.getElementById('breakDuration');
 const workDurationValue = document.getElementById('workDurationValue');
 const breakDurationValue = document.getElementById('breakDurationValue');
 const notificationSoundSelect = document.getElementById('notificationSound');
@@ -21,39 +19,18 @@ const addWorkMessageBtn = document.getElementById('addWorkMessageBtn');
 const addBreakMessageBtn = document.getElementById('addBreakMessageBtn');
 const resetSessionsBtn = document.getElementById('resetSessionsBtn');
 
-// Audio context for sound testing
-let audioContext = null;
-let notificationAudio = null;
+// Duration button elements
+const workDurationBtns = document.querySelectorAll('.duration-btn[data-type="work"]');
+const breakDurationBtns = document.querySelectorAll('.duration-btn[data-type="break"]');
+
+// Current selections
+let selectedWorkDuration = 25;
+let selectedBreakDuration = 5;
 
 // Initialize settings page
 function init() {
     loadSettings();
     setupEventListeners();
-    createNotificationSound();
-}
-
-// Create notification sound
-function createNotificationSound() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-    notificationAudio = {
-        play: () => {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-
-            oscillator.frequency.value = 800;
-            oscillator.type = 'sine';
-
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.5);
-        }
-    };
 }
 
 // Load settings from localStorage
@@ -81,16 +58,40 @@ function loadSettings() {
         }
     }
 
-    // Set slider values
-    workDurationSlider.value = settings.workDuration;
-    breakDurationSlider.value = settings.breakDuration;
+    // Set duration values
+    selectedWorkDuration = settings.workDuration;
+    selectedBreakDuration = settings.breakDuration;
     workDurationValue.textContent = settings.workDuration;
     breakDurationValue.textContent = settings.breakDuration;
     notificationSoundSelect.value = settings.notificationSound;
 
+    // Update duration button states
+    updateDurationButtonStates();
+
     // Load messages
     loadMessages(settings.workCompleteMessages, workMessagesList, 'work');
     loadMessages(settings.breakCompleteMessages, breakMessagesList, 'break');
+}
+
+// Update duration button states
+function updateDurationButtonStates() {
+    workDurationBtns.forEach(btn => {
+        const duration = parseInt(btn.dataset.duration);
+        if (duration === selectedWorkDuration) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    breakDurationBtns.forEach(btn => {
+        const duration = parseInt(btn.dataset.duration);
+        if (duration === selectedBreakDuration) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
 }
 
 // Load messages into list
@@ -134,37 +135,29 @@ function addMessageToList(message, container, type) {
     container.appendChild(messageItem);
 }
 
-// Update slider background
-function updateSliderBackground(slider) {
-    const min = slider.min || 0;
-    const max = slider.max || 100;
-    const value = slider.value;
-    const percentage = ((value - min) / (max - min)) * 100;
-    slider.style.background = `linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) ${percentage}%, #e8e8ed ${percentage}%, #e8e8ed 100%)`;
-}
-
 // Setup event listeners
 function setupEventListeners() {
-    // Slider updates
-    workDurationSlider.addEventListener('input', (e) => {
-        workDurationValue.textContent = e.target.value;
-        updateSliderBackground(e.target);
+    // Duration button clicks
+    workDurationBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectedWorkDuration = parseInt(btn.dataset.duration);
+            workDurationValue.textContent = selectedWorkDuration;
+            updateDurationButtonStates();
+        });
     });
 
-    breakDurationSlider.addEventListener('input', (e) => {
-        breakDurationValue.textContent = e.target.value;
-        updateSliderBackground(e.target);
+    breakDurationBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectedBreakDuration = parseInt(btn.dataset.duration);
+            breakDurationValue.textContent = selectedBreakDuration;
+            updateDurationButtonStates();
+        });
     });
-
-    // Initialize slider backgrounds
-    updateSliderBackground(workDurationSlider);
-    updateSliderBackground(breakDurationSlider);
 
     // Test sound button
     testSoundBtn.addEventListener('click', () => {
-        if (notificationAudio) {
-            notificationAudio.play();
-        }
+        const soundName = notificationSoundSelect.value;
+        SoundLibrary.playSound(soundName, false);
     });
 
     // Add message buttons
@@ -221,8 +214,8 @@ function saveSettings(e) {
     }
 
     const settings = {
-        workDuration: parseInt(workDurationSlider.value),
-        breakDuration: parseInt(breakDurationSlider.value),
+        workDuration: selectedWorkDuration,
+        breakDuration: selectedBreakDuration,
         workCompleteMessages: workMessages,
         breakCompleteMessages: breakMessages,
         notificationSound: notificationSoundSelect.value

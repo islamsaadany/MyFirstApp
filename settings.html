@@ -21,24 +21,34 @@
         </div>
 
         <form class="settings-form" id="settingsForm">
-            <!-- Work Duration Slider -->
+            <!-- Work Duration -->
             <div class="form-group">
-                <label for="workDuration">Work Duration: <span id="workDurationValue">25</span> minutes</label>
-                <input type="range" id="workDuration" name="workDuration" min="5" max="60" step="5" value="25" class="slider">
-                <div class="slider-labels">
-                    <span>5 min</span>
-                    <span>60 min</span>
+                <label>Work Duration: <span id="workDurationValue">25</span> minutes</label>
+                <div class="duration-selector">
+                    <button type="button" class="duration-btn" data-duration="5" data-type="work">5</button>
+                    <button type="button" class="duration-btn" data-duration="10" data-type="work">10</button>
+                    <button type="button" class="duration-btn" data-duration="15" data-type="work">15</button>
+                    <button type="button" class="duration-btn" data-duration="20" data-type="work">20</button>
+                    <button type="button" class="duration-btn active" data-duration="25" data-type="work">25</button>
+                    <button type="button" class="duration-btn" data-duration="30" data-type="work">30</button>
+                    <button type="button" class="duration-btn" data-duration="45" data-type="work">45</button>
+                    <button type="button" class="duration-btn" data-duration="60" data-type="work">60</button>
                 </div>
+                <div class="duration-info">Choose your focus session duration</div>
             </div>
 
-            <!-- Break Duration Slider -->
+            <!-- Break Duration -->
             <div class="form-group">
-                <label for="breakDuration">Break Duration: <span id="breakDurationValue">5</span> minutes</label>
-                <input type="range" id="breakDuration" name="breakDuration" min="5" max="60" step="5" value="5" class="slider">
-                <div class="slider-labels">
-                    <span>5 min</span>
-                    <span>60 min</span>
+                <label>Break Duration: <span id="breakDurationValue">5</span> minutes</label>
+                <div class="duration-selector">
+                    <button type="button" class="duration-btn active" data-duration="5" data-type="break">5</button>
+                    <button type="button" class="duration-btn" data-duration="10" data-type="break">10</button>
+                    <button type="button" class="duration-btn" data-duration="15" data-type="break">15</button>
+                    <button type="button" class="duration-btn" data-duration="20" data-type="break">20</button>
+                    <button type="button" class="duration-btn" data-duration="25" data-type="break">25</button>
+                    <button type="button" class="duration-btn" data-duration="30" data-type="break">30</button>
                 </div>
+                <div class="duration-info">Choose your break duration</div>
             </div>
 
             <!-- Notification Sound -->
@@ -50,6 +60,7 @@
                         <option value="bell">Bell</option>
                         <option value="chime">Soft Chime</option>
                         <option value="ding">Ding</option>
+                        <option value="gentle">Gentle Alert</option>
                     </select>
                     <button type="button" class="btn btn-secondary test-sound-btn" id="testSoundBtn">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -108,6 +119,7 @@
         </form>
     </div>
 
+    <script src="js/sounds.js"></script>
     <script src="js/settings.js"></script>
 </body>
 </html>
