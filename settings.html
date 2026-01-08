@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#007AFF">
+    <title>Settings - Focus Timer</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1>Settings</h1>
+        </div>
+
+        <form class="settings-form" id="settingsForm">
+            <div class="form-group">
+                <label for="workDuration">Work Duration (minutes)</label>
+                <input type="number" id="workDuration" name="workDuration" min="1" max="120" value="25" required>
+            </div>
+
+            <div class="form-group">
+                <label for="breakDuration">Break Duration (minutes)</label>
+                <input type="number" id="breakDuration" name="breakDuration" min="1" max="60" value="5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="workCompleteMessage">Work Complete Message</label>
+                <textarea id="workCompleteMessage" name="workCompleteMessage" placeholder="Time to take a break and recharge!" required>Time to take a break and recharge!</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="breakCompleteMessage">Break Complete Message</label>
+                <textarea id="breakCompleteMessage" name="breakCompleteMessage" placeholder="Time to get back to work!" required>Time to get back to work!</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="notificationSound">Notification Sound</label>
+                <select id="notificationSound" name="notificationSound">
+                    <option value="default">Default Chime</option>
+                    <option value="bell">Bell</option>
+                    <option value="chime">Soft Chime</option>
+                    <option value="ding">Ding</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary save-btn">Save Settings</button>
+        </form>
+    </div>
+
+    <script src="js/settings.js"></script>
+</body>
+</html>

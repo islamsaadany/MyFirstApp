@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#007AFF">
+    <meta name="description" content="A minimalist timer to help you focus on your work with breaks">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Focus Timer">
+    <title>Focus Timer</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Session Counter -->
+        <div class="session-counter">
+            <span id="sessionCount">0</span> sessions completed today
+        </div>
+
+        <!-- Timer Display with Progress Ring -->
+        <div class="timer-container">
+            <svg class="progress-ring" width="280" height="280">
+                <circle class="progress-ring-bg" cx="140" cy="140" r="120"></circle>
+                <circle class="progress-ring-circle" cx="140" cy="140" r="120"></circle>
+            </svg>
+            <div class="timer-display">
+                <div class="timer-mode" id="timerMode">WORK</div>
+                <div class="timer-time" id="timerTime">25:00</div>
+            </div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="controls">
+            <button class="btn btn-secondary" id="resetBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                    <path d="M21 3v5h-5"></path>
+                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                    <path d="M3 21v-5h5"></path>
+                </svg>
+                Reset
+            </button>
+            <button class="btn btn-primary" id="startBtn">
+                <svg class="play-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"></path>
+                </svg>
+                <svg class="pause-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                    <path d="M6 4h4v16H6zM14 4h4v16h-4z"></path>
+                </svg>
+            </button>
+            <button class="btn btn-secondary" id="settingsBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m8.66-15l-3 5.196M6.34 18.804l-3-5.196M23 12h-6m-6 0H1m17.66 8.66l-3-5.196M6.34 5.196l-3 5.196"></path>
+                </svg>
+                Settings
+            </button>
+        </div>
+    </div>
+
+    <!-- Break Prompt Modal -->
+    <div class="modal" id="breakModal">
+        <div class="modal-content">
+            <h2>🎉 Great Work!</h2>
+            <p id="breakMessage">Time to take a break and recharge!</p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="startBreakBtn">Start Break</button>
+                <button class="btn btn-secondary" id="skipBreakBtn">Skip Break</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Work Reminder Modal -->
+    <div class="modal" id="workModal">
+        <div class="modal-content">
+            <h2>⏰ Break's Over!</h2>
+            <p id="workMessage">Time to get back to work!</p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="startWorkBtn">Start Working</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/timer.js"></script>
+</body>
+</html>
