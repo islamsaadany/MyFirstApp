@@ -258,29 +258,33 @@ body {
     padding: 1rem;
 }
 
-/* Settings Page Specific Styles */
+/* Settings Page Specific Styles - Variation 1: Fixed Height with Scroll */
 .settings-container {
     background: var(--background);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    padding: 2rem;
     max-width: 500px;
     width: 90%;
+    height: 600px; /* Fixed height */
+    display: flex;
+    flex-direction: column;
     margin: 2rem auto;
 }
 
 .settings-header {
     display: flex;
     align-items: center;
-    margin-bottom: 2rem;
+    padding: 1.5rem;
     gap: 1rem;
+    border-bottom: 1px solid var(--secondary-color);
+    flex-shrink: 0;
 }
 
 .back-btn {
     background: var(--secondary-color);
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -294,15 +298,37 @@ body {
 }
 
 .settings-header h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
     flex: 1;
 }
 
+/* Scrollable Content Area */
 .settings-form {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    min-height: 0; /* Important for flex scrolling */
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+}
+
+.settings-form::-webkit-scrollbar {
+    width: 6px;
+}
+
+.settings-form::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.settings-form::-webkit-scrollbar-thumb {
+    background: #d1d1d6;
+    border-radius: 3px;
+}
+
+.settings-form::-webkit-scrollbar-thumb:hover {
+    background: #b1b1b6;
 }
 
 .form-group {
@@ -631,20 +657,22 @@ body {
     background: var(--secondary-color);
     padding: 0.5rem;
     gap: 0.5rem;
+    margin: 0 1.5rem;
+    margin-top: 1rem;
     border-radius: var(--radius-md);
-    margin-bottom: 1.5rem;
+    flex-shrink: 0;
     overflow-x: auto;
 }
 
 .tab {
     flex: 1;
     min-width: 100px;
-    padding: 0.875rem 1rem;
+    padding: 0.75rem 0.5rem;
     background: transparent;
     border: none;
     border-radius: var(--radius-sm);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     cursor: pointer;
     transition: var(--transition);
@@ -675,7 +703,7 @@ body {
 
 /* Section Titles and Subtitles */
 .section-title {
-    font-size: 1.1rem !important;
+    font-size: 1rem !important;
     font-weight: 600 !important;
     margin-bottom: 0.5rem !important;
     color: var(--text-primary) !important;
@@ -684,30 +712,31 @@ body {
 }
 
 .section-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1rem;
 }
 
 .duration-value {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: 1rem;
+    text-align: center;
 }
 
 /* Sound Selector - Radio Style */
 .sound-selector-tabbed {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.65rem;
 }
 
 .sound-option {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 0.75rem;
+    padding: 0.875rem;
     background: var(--secondary-color);
     border: 2px solid transparent;
     border-radius: var(--radius-md);
@@ -726,8 +755,8 @@ body {
 }
 
 .radio {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border: 2px solid var(--text-secondary);
     border-radius: 50%;
     display: flex;
@@ -743,8 +772,8 @@ body {
 
 .radio::after {
     content: '';
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     background: var(--primary-color);
     border-radius: 50%;
     opacity: 0;
@@ -760,12 +789,13 @@ body {
 .sound-name {
     flex: 1;
     font-weight: 600;
+    font-size: 0.95rem;
     color: var(--text-primary);
 }
 
 .play-btn {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     background: var(--primary-color);
     border: none;
     border-radius: 50%;
@@ -775,7 +805,6 @@ body {
     align-items: center;
     justify-content: center;
     transition: var(--transition);
-    font-size: 1rem;
     flex-shrink: 0;
 }
 
@@ -825,11 +854,13 @@ body {
     transform: scale(0.95);
 }
 
-/* Save Footer */
+/* Save Footer - Fixed at Bottom */
 .save-footer {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
+    padding: 1rem 1.5rem;
     border-top: 1px solid var(--secondary-color);
+    flex-shrink: 0;
+    background: var(--background);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 
 .save-footer .btn-primary {
