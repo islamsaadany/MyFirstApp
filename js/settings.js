@@ -12,7 +12,6 @@ const settingsForm = document.getElementById('settingsForm');
 const workDurationValue = document.getElementById('workDurationValue');
 const breakDurationValue = document.getElementById('breakDurationValue');
 const notificationSoundSelect = document.getElementById('notificationSound');
-const testSoundBtn = document.getElementById('testSoundBtn');
 const workMessagesList = document.getElementById('workMessagesList');
 const breakMessagesList = document.getElementById('breakMessagesList');
 const addWorkMessageBtn = document.getElementById('addWorkMessageBtn');
@@ -22,6 +21,14 @@ const resetSessionsBtn = document.getElementById('resetSessionsBtn');
 // Duration button elements
 const workDurationBtns = document.querySelectorAll('.duration-btn[data-type="work"]');
 const breakDurationBtns = document.querySelectorAll('.duration-btn[data-type="break"]');
+
+// Tab elements
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+
+// Sound selector elements
+const soundOptions = document.querySelectorAll('.sound-option');
+const playBtns = document.querySelectorAll('.play-btn');
 
 // Current selections
 let selectedWorkDuration = 25;
@@ -68,9 +75,23 @@ function loadSettings() {
     // Update duration button states
     updateDurationButtonStates();
 
+    // Update sound selector radio buttons
+    updateSoundSelector(settings.notificationSound);
+
     // Load messages
     loadMessages(settings.workCompleteMessages, workMessagesList, 'work');
     loadMessages(settings.breakCompleteMessages, breakMessagesList, 'break');
+}
+
+// Update sound selector to match saved sound
+function updateSoundSelector(soundName) {
+    soundOptions.forEach(option => {
+        if (option.dataset.sound === soundName) {
+            option.classList.add('selected');
+        } else {
+            option.classList.remove('selected');
+        }
+    });
 }
 
 // Update duration button states
@@ -137,6 +158,35 @@ function addMessageToList(message, container, type) {
 
 // Setup event listeners
 function setupEventListeners() {
+    // Tab switching
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabName = tab.dataset.tab;
+            switchTab(tabName);
+        });
+    });
+
+    // Sound option selection
+    soundOptions.forEach(option => {
+        option.addEventListener('click', (e) => {
+            // Don't trigger if play button was clicked
+            if (e.target.closest('.play-btn')) {
+                return;
+            }
+            const soundName = option.dataset.sound;
+            selectSound(soundName);
+        });
+    });
+
+    // Play buttons
+    playBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent triggering parent sound-option click
+            const soundName = btn.dataset.sound;
+            SoundLibrary.playSound(soundName, false);
+        });
+    });
+
     // Duration button clicks
     workDurationBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -152,12 +202,6 @@ function setupEventListeners() {
             breakDurationValue.textContent = selectedBreakDuration;
             updateDurationButtonStates();
         });
-    });
-
-    // Test sound button
-    testSoundBtn.addEventListener('click', () => {
-        const soundName = notificationSoundSelect.value;
-        SoundLibrary.playSound(soundName, false);
     });
 
     // Add message buttons
@@ -179,6 +223,35 @@ function setupEventListeners() {
 
     // Form submit
     settingsForm.addEventListener('submit', saveSettings);
+}
+
+// Switch tab
+function switchTab(tabName) {
+    // Update tab buttons
+    tabs.forEach(tab => {
+        if (tab.dataset.tab === tabName) {
+            tab.classList.add('active');
+        } else {
+            tab.classList.remove('active');
+        }
+    });
+
+    // Update tab contents
+    tabContents.forEach(content => {
+        if (content.dataset.content === tabName) {
+            content.classList.add('active');
+        } else {
+            content.classList.remove('active');
+        }
+    });
+}
+
+// Select sound
+function selectSound(soundName) {
+    // Update visual selection
+    updateSoundSelector(soundName);
+    // Update hidden select element for saving
+    notificationSoundSelect.value = soundName;
 }
 
 // Get messages from list
