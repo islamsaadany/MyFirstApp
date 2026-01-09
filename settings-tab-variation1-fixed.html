@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#007AFF">
+    <title>Settings Variation 1 - Fixed Height Container</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #007AFF;
+            --primary-hover: #0051D5;
+            --secondary-color: #F5F5F7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --background: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-primary);
+            padding: 1rem;
+        }
+
+        .settings-container {
+            background: var(--background);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 500px;
+            height: 600px; /* Fixed height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            gap: 1rem;
+            border-bottom: 1px solid var(--secondary-color);
+            flex-shrink: 0;
+        }
+
+        .back-btn {
+            background: var(--secondary-color);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: #e8e8ed;
+        }
+
+        .settings-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            background: var(--secondary-color);
+            padding: 0.5rem;
+            gap: 0.5rem;
+            margin: 0 1.5rem;
+            margin-top: 1rem;
+            border-radius: var(--radius-md);
+            flex-shrink: 0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.75rem 0.5rem;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .tab:hover {
+            background: rgba(0, 122, 255, 0.05);
+            color: var(--primary-color);
+        }
+
+        .tab.active {
+            background: var(--background);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Scrollable Content Area - FIXED HEIGHT */
+        .settings-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            min-height: 0; /* Important for flex scrolling */
+        }
+
+        .settings-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .settings-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .settings-content::-webkit-scrollbar-thumb {
+            background: #d1d1d6;
+            border-radius: 3px;
+        }
+
+        .settings-content::-webkit-scrollbar-thumb:hover {
+            background: #b1b1b6;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .duration-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Duration Selector */
+        .duration-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .duration-btn {
+            background: var(--secondary-color);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            padding: 0.75rem 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .duration-btn:hover {
+            background: #e8e8ed;
+            transform: translateY(-2px);
+        }
+
+        .duration-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Sound Selector */
+        .sound-selector-tabbed {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .sound-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem;
+            background: var(--secondary-color);
+            border: 2px solid transparent;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sound-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .sound-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .sound-option.selected .radio {
+            border-color: var(--primary-color);
+        }
+
+        .radio::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            transition: var(--transition);
+        }
+
+        .sound-option.selected .radio::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .sound-name {
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .play-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary-hover);
+        }
+
+        /* Messages */
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .message-item {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .message-input {
+            flex: 1;
+            border: 2px solid #e8e8ed;
+            border-radius: var(--radius-sm);
+            padding: 0.65rem;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: var(--transition);
+            resize: vertical;
+            min-height: 50px;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-remove {
+            background: #FF3B30;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 9px;
+        }
+
+        .btn-remove:hover {
+            background: #D70015;
+            transform: scale(1.05);
+        }
+
+        .add-message-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--secondary-color);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .add-message-btn:hover {
+            background: #e8e8ed;
+        }
+
+        /* Reset Section */
+        .reset-section {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 149, 0, 0.1);
+            border-radius: var(--radius-md);
+            border: 2px dashed #FF9500;
+        }
+
+        .reset-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .btn-warning {
+            padding: 0.75rem 1.5rem;
+            background: #FF9500;
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-warning:hover {
+            background: #E68600;
+            transform: translateY(-2px);
+        }
+
+        /* Save Footer - FIXED AT BOTTOM */
+        .save-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--secondary-color);
+            flex-shrink: 0;
+            background: var(--background);
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <button class="back-btn" onclick="alert('Back to main page')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1>Settings</h1>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab active" data-tab="timer">⏰ Timer</button>
+            <button class="tab" data-tab="sounds">🔔 Sounds</button>
+            <button class="tab" data-tab="messages">💬 Messages</button>
+            <button class="tab" data-tab="data">📊 Data</button>
+        </div>
+
+        <!-- Scrollable Content Area -->
+        <div class="settings-content">
+            <!-- Tab 1: Timer -->
+            <div class="tab-content active" data-content="timer">
+                <div class="form-group">
+                    <div class="section-title">Work Duration</div>
+                    <div class="section-subtitle">Choose how long you want to focus</div>
+                    <div class="duration-value">25 minutes</div>
+                    <div class="duration-selector">
+                        <button class="duration-btn">5</button>
+                        <button class="duration-btn">10</button>
+                        <button class="duration-btn">15</button>
+                        <button class="duration-btn">20</button>
+                        <button class="duration-btn active">25</button>
+                        <button class="duration-btn">30</button>
+                        <button class="duration-btn">45</button>
+                        <button class="duration-btn">60</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="section-title">Break Duration</div>
+                    <div class="section-subtitle">Time to recharge and relax</div>
+                    <div class="duration-value">5 minutes</div>
+                    <div class="duration-selector">
+                        <button class="duration-btn active">5</button>
+                        <button class="duration-btn">10</button>
+                        <button class="duration-btn">15</button>
+                        <button class="duration-btn">20</button>
+                        <button class="duration-btn">25</button>
+                        <button class="duration-btn">30</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Sounds -->
+            <div class="tab-content" data-content="sounds">
+                <div class="form-group">
+                    <div class="section-title">Notification Sound</div>
+                    <div class="section-subtitle">Choose a sound that helps you stay focused</div>
+                    <div class="sound-selector-tabbed">
+                        <div class="sound-option selected">
+                            <div class="radio"></div>
+                            <div class="sound-name">Default Chime</div>
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <div class="sound-option">
+                            <div class="radio"></div>
+                            <div class="sound-name">Bell</div>
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <div class="sound-option">
+                            <div class="radio"></div>
+                            <div class="sound-name">Soft Chime</div>
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <div class="sound-option">
+                            <div class="radio"></div>
+                            <div class="sound-name">Ding</div>
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <div class="sound-option">
+                            <div class="radio"></div>
+                            <div class="sound-name">Gentle Alert</div>
+                            <button class="play-btn">▶</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Messages -->
+            <div class="tab-content" data-content="messages">
+                <div class="form-group">
+                    <div class="section-title">Work Complete Messages</div>
+                    <div class="section-subtitle">Messages shown when it's time for a break</div>
+                    <div class="message-list">
+                        <div class="message-item">
+                            <textarea class="message-input" rows="2">Time to take a break and recharge!</textarea>
+                            <button class="btn-remove">×</button>
+                        </div>
+                    </div>
+                    <button class="add-message-btn">+ Add Message</button>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.75rem;">
+                    <div class="section-title">Break Complete Messages</div>
+                    <div class="section-subtitle">Messages shown when it's time to work</div>
+                    <div class="message-list">
+                        <div class="message-item">
+                            <textarea class="message-input" rows="2">Time to get back to work!</textarea>
+                            <button class="btn-remove">×</button>
+                        </div>
+                    </div>
+                    <button class="add-message-btn">+ Add Message</button>
+                </div>
+            </div>
+
+            <!-- Tab 4: Data -->
+            <div class="tab-content" data-content="data">
+                <div class="form-group">
+                    <div class="section-title">Session Data</div>
+                    <div class="reset-section">
+                        <div class="reset-info">Reset your session counter for today</div>
+                        <button class="btn-warning">Reset Sessions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fixed Save Footer -->
+        <div class="save-footer">
+            <button class="btn-primary">Save Settings</button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.querySelector(`[data-content="${tabName}"]`).classList.add('active');
+            });
+        });
+
+        // Sound selection
+        const soundOptions = document.querySelectorAll('.sound-option');
+        soundOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                if (!e.target.closest('.play-btn')) {
+                    soundOptions.forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                }
+            });
+        });
+
+        // Duration selection
+        const durationBtns = document.querySelectorAll('.duration-btn');
+        durationBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.duration-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const valueDisplay = parent.previousElementSibling;
+                if (valueDisplay && valueDisplay.classList.contains('duration-value')) {
+                    valueDisplay.textContent = btn.textContent + ' minutes';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
