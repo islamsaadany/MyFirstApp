@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Option 1: Card-Based</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0051D5;
+            --secondary: #F5F5F7;
+            --text: #1d1d1f;
+            --text-light: #86868b;
+            --bg: #fafafa;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --radius: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--white);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .duration-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .duration-btn {
+            padding: 0.875rem 0.5rem;
+            border: 2px solid var(--secondary);
+            background: var(--white);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .duration-btn:hover {
+            border-color: var(--primary);
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .duration-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        .sound-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        select {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--white);
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .test-btn {
+            padding: 0.875rem 1.5rem;
+            background: var(--secondary);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .test-btn:hover {
+            background: #e8e8ed;
+            transform: scale(1.02);
+        }
+
+        .message-item {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 0.875rem;
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-remove {
+            width: 40px;
+            height: 40px;
+            background: #FF3B30;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-remove:hover {
+            background: #d70015;
+            transform: scale(1.05);
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--secondary);
+            border: 2px dashed var(--text-light);
+            border-radius: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-add:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 1rem 1.5rem;
+            background: var(--secondary);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8ed;
+        }
+
+        .card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .duration-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1>Settings</h1>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Work Duration Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-title">Work Duration</div>
+                </div>
+                <div class="duration-grid">
+                    <button class="duration-btn">5</button>
+                    <button class="duration-btn">10</button>
+                    <button class="duration-btn">15</button>
+                    <button class="duration-btn">20</button>
+                    <button class="duration-btn active">25</button>
+                    <button class="duration-btn">30</button>
+                    <button class="duration-btn">45</button>
+                    <button class="duration-btn">60</button>
+                </div>
+            </div>
+
+            <!-- Break Duration Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                    </div>
+                    <div class="card-title">Break Duration</div>
+                </div>
+                <div class="duration-grid">
+                    <button class="duration-btn active">5</button>
+                    <button class="duration-btn">10</button>
+                    <button class="duration-btn">15</button>
+                    <button class="duration-btn">20</button>
+                    <button class="duration-btn">25</button>
+                    <button class="duration-btn">30</button>
+                </div>
+            </div>
+
+            <!-- Notification Sound Card -->
+            <div class="card full-width">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                    </div>
+                    <div class="card-title">Notification Sound</div>
+                </div>
+                <div class="sound-row">
+                    <select>
+                        <option>Default Chime</option>
+                        <option>Bell</option>
+                        <option>Soft Chime</option>
+                        <option>Ding</option>
+                        <option>Gentle Alert</option>
+                    </select>
+                    <button class="test-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                        Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- Work Messages Card -->
+            <div class="card full-width">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="card-title">Work Complete Messages</div>
+                </div>
+                <div class="message-item">
+                    <textarea placeholder="Enter your work complete message...">Time to take a break and recharge!</textarea>
+                    <button class="btn-remove">✕</button>
+                </div>
+                <button class="btn-add">+ Add Another Message</button>
+            </div>
+
+            <!-- Break Messages Card -->
+            <div class="card full-width">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="card-title">Break Complete Messages</div>
+                </div>
+                <div class="message-item">
+                    <textarea placeholder="Enter your break complete message...">Time to get back to work!</textarea>
+                    <button class="btn-remove">✕</button>
+                </div>
+                <button class="btn-add">+ Add Another Message</button>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-secondary">Reset Sessions</button>
+            <button class="btn-primary">Save Settings</button>
+        </div>
+    </div>
+</body>
+</html>
