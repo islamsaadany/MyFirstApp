@@ -4,9 +4,9 @@
 
 A Progressive Web App (PWA) that helps users focus on their work with timed work sessions and breaks. The app features push notifications, customizable timers, session tracking, and a clean Apple-inspired design.
 
-**Status:** ✅ **COMPLETED** (Enhanced January 9, 2026)
+**Status:** ✅ **COMPLETED** (Enhanced January 9, 2026 - v2.1)
 **Started:** January 8, 2026
-**Latest Update:** January 9, 2026
+**Latest Update:** January 9, 2026 (v2.1 - Tabbed Interface)
 **Branch:** `claude/focus-timer-pwa-b0S3U`
 
 ---
@@ -44,6 +44,17 @@ A Progressive Web App (PWA) that helps users focus on their work with timed work
 - ✅ **Test Sound Feature** before saving settings
 - ✅ **Session Reset Button** in settings
 - ✅ **Gear Icon** for settings button
+
+### UI Redesign (v2.1 - January 9, 2026)
+- ✅ **Tabbed Interface** for settings with 4 organized categories
+- ✅ **Timer Tab** - Dedicated space for work/break duration settings
+- ✅ **Sounds Tab** - Radio-style sound selector with visual feedback
+- ✅ **Messages Tab** - Clean message management interface
+- ✅ **Data Tab** - Session reset in its own category
+- ✅ **Individual Play Buttons** for each sound option
+- ✅ **Smooth Tab Transitions** with fade-in animations
+- ✅ **Section Titles & Subtitles** for better information hierarchy
+- ✅ **Sticky Save Footer** always visible at bottom
 
 ---
 
@@ -251,18 +262,18 @@ A Progressive Web App (PWA) that helps users focus on their work with timed work
 ```
 MyFirstApp/
 ├── index.html              # Main timer page
-├── settings.html           # Settings configuration page
+├── settings.html           # Settings configuration page (Tabbed UI) ⭐ v2.1
 ├── manifest.json           # PWA manifest
-├── service-worker.js       # Service worker for offline support (v2)
+├── service-worker.js       # Service worker for offline support (v2.1) ⭐ UPDATED
 ├── .gitignore             # Git ignore patterns
 ├── PROJECT_PLAN.md        # This document
 │
 ├── css/
-│   └── style.css          # Complete styling (640+ lines) ⭐ ENHANCED
+│   └── style.css          # Complete styling (860+ lines) ⭐ ENHANCED v2.1
 │
 ├── js/
 │   ├── timer.js           # Timer logic (300+ lines) ⭐ ENHANCED
-│   ├── settings.js        # Settings management (240+ lines) ⭐ ENHANCED
+│   ├── settings.js        # Settings management (310+ lines) ⭐ ENHANCED v2.1
 │   └── sounds.js          # Sound library with 5 sounds (220+ lines) ⭐ NEW
 │
 └── icons/
@@ -270,9 +281,9 @@ MyFirstApp/
     └── icon-512.png       # PWA icon (512x512)
 ```
 
-**Total Lines of Code:** ~1,500+
+**Total Lines of Code:** ~1,700+
 **Total Files:** 11 main files + documentation
-**Latest Update:** v2.0 with enhanced sound system and visual UI
+**Latest Update:** v2.1 with tabbed settings interface
 
 ---
 
@@ -581,6 +592,33 @@ None currently identified.
 
 ## 📝 Changelog
 
+### v2.1.0 (January 9, 2026) - Tabbed Settings Interface
+**UI/UX Redesign:**
+- ✅ **Tabbed Navigation System** - 4 organized tabs (⏰ Timer, 🔔 Sounds, 💬 Messages, 📊 Data)
+  - Clean one-category-at-a-time workflow
+  - Smooth fade-in transitions between tabs
+  - Mobile-optimized tab layout
+- ✅ **Radio-Style Sound Selector** - Visual feedback for selected sound
+  - Individual play buttons for each sound
+  - Hover effects and active states
+  - Radio button animations
+- ✅ **Enhanced Section Headers** - Section titles and subtitles for clarity
+- ✅ **Duration Value Display** - Large numeric display above duration selectors
+- ✅ **Styled Reset Section** - Dashed border box with warning color scheme
+- ✅ **Sticky Save Footer** - Always visible save button at bottom
+
+**Technical Updates:**
+- Enhanced: `settings.html` - Complete tabbed structure
+- Enhanced: `css/style.css` - 220+ new lines for tabs, radio buttons, layouts (now 860+ lines total)
+- Enhanced: `js/settings.js` - Tab switching logic, sound selection handling (now 310+ lines)
+- Updated: `service-worker.js` - Cache version v2 → v2.1
+
+**Files Changed:** 4 files, 407 additions, 83 deletions
+
+**Design Philosophy:** Option 2 from UI exploration - focused, step-by-step configuration with excellent mobile support
+
+---
+
 ### v2.0.0 (January 9, 2026) - Enhanced Audio & Visual UI
 **Major Enhancements:**
 - ✅ **Sound Library System** - 5 unique notification sounds with Web Audio API
@@ -629,7 +667,7 @@ None currently identified.
 **Project Owner:** User
 **Design Inspiration:** Apple iOS Design Guidelines
 **Initial Release:** January 8, 2026
-**Latest Update:** January 9, 2026 (v2.0)
+**Latest Update:** January 9, 2026 (v2.1 - Tabbed Interface)
 
 ---
 
@@ -645,16 +683,19 @@ For issues or feature requests, please refer to the repository's issue tracker.
 
 ---
 
-**Status Summary (v2.0):**
+**Status Summary (v2.1):**
 - ✅ All planned features implemented
-- ✅ Enhanced with advanced sound system
-- ✅ Visual duration selector with iOS-style buttons
-- ✅ Continuous looping notifications
-- ✅ Multiple random message support
+- ✅ Enhanced with advanced sound system (v2.0)
+- ✅ Visual duration selector with iOS-style buttons (v2.0)
+- ✅ Continuous looping notifications (v2.0)
+- ✅ Multiple random message support (v2.0)
+- ✅ Tabbed settings interface with 4 categories (v2.1)
+- ✅ Radio-style sound selector with play buttons (v2.1)
+- ✅ Clean, focused UI with smooth transitions (v2.1)
 - ✅ Fully tested and functional
 - ✅ Committed to git repository (`claude/focus-timer-pwa-b0S3U`)
 - ✅ Ready for deployment
 
-**Version:** 2.0.0
+**Version:** 2.1.0
 **Last Updated:** January 9, 2026
-**Next Action:** Deploy to hosting platform or test locally with all new features!
+**Next Action:** Deploy to hosting platform or test the new tabbed interface locally!
